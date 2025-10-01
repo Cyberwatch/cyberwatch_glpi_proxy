@@ -81,7 +81,7 @@ Choisir "Détails d'un actif - Onglet Gestion des correctifs"
 
 #### URL
 
-Mettre pour l'URL, l'IP de la machine et le port 5000 : http://[IP]:5000
+Mettre pour l'URL, l'IP de la machine et le port 5000 : http://[IP]:5000/glpi
 
 #### En-têtes de la requête :
 
@@ -99,8 +99,8 @@ Mettre pour l'URL, l'IP de la machine et le port 5000 : http://[IP]:5000
 ```json
 {
   "input": {
-    "name": "[Cyberwatch] Actif #SERVER_NAME# vulnérable",
-    "content": "Bonjour,\n\n L’actif #SERVER_NAME# est affecté par les vulnérabilités suivantes : #CVE_ANNOUNCEMENTS#.\n\n Merci de bien vouloir procéder à leur correction.",
+    "name": "[Cyberwatch] Actif {{ asset.name }} vulnérable",
+    "content": "Bonjour,\n\n L’actif {{ asset.name }} est affecté par les vulnérabilités suivantes :\n\n{% for technology in technologies %}- {{ technology.product | escape }} - Version cible : {{ technology.target_version_string | default: 'Dernière version' | escape }}\n\n{{ cves | map: 'code' | join: ', ' }}\n\n{% endfor %}Merci de bien vouloir procéder à leur correction.",
     "status": "1",
     "urgency": "1"
   }
